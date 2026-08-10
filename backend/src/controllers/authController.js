@@ -88,3 +88,22 @@ export const login = async (req, res) => {
     res.status(500).json({ error: "Errore interno del server" });
   }
 };
+
+// localizzazione utente
+export const getMe = async (req, res) => {
+  try {
+    const [users] = await pool.query(
+      "SELECT id, username, email, created_at FROM users WHERE id = ?",
+      [req.user.id],
+    );
+
+    if (users.length === 0) {
+      return res.status(404).json({ error: "Utente non trovato" });
+    }
+
+    res.json({ user: users[0] });
+  } catch (err) {
+    console.error("Errore getMe:", err);
+    res.status(500).json({ error: "Errore interno del server" });
+  }
+};
