@@ -91,3 +91,17 @@ Sii concreto, umano e diretto. Usa emoji con moderazione. Lunghezza: 200-300 par
     res.status(500).json({ error: "Errore nella generazione del briefing" });
   }
 };
+
+export const getBriefingHistory = async (req, res) => {
+  try {
+    const [briefings] = await pool.query(
+      "SELECT id, contenuto, umore, created_at FROM briefings WHERE user_id = ? ORDER BY created_at DESC LIMIT 10",
+      [req.user.id],
+    );
+
+    res.json({ briefings });
+  } catch (err) {
+    console.error("Errore getBriefingHistory:", err);
+    res.status(500).json({ error: "Errore interno del server" });
+  }
+};
