@@ -29,3 +29,24 @@ export const loginUser = async (email, password) => {
   if (!res.ok) throw new Error(data.error || "Errore login");
   return data;
 };
+
+// task section
+export const fetchTasks = async () => {
+  const res = await fetch(`${BASE_URL}/tasks`, {
+    headers: getHeaders(),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || "Errore fetch tasks");
+  return data;
+};
+
+export const createTask = async (titolo, priorita, note) => {
+  const res = await fetch(`${BASE_URL}/tasks`, {
+    method: "POST",
+    headers: getHeaders(),
+    body: JSON.stringify({ titolo, priorita, note }),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || "Errore creazione task");
+  return data;
+};
