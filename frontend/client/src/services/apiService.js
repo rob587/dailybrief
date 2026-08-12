@@ -50,3 +50,24 @@ export const createTask = async (titolo, priorita, note) => {
   if (!res.ok) throw new Error(data.error || "Errore creazione task");
   return data;
 };
+
+export const updateTask = async (id, updates) => {
+  const res = await fetch(`${BASE_URL}/tasks/${id}`, {
+    method: "PUT",
+    headers: getHeaders(),
+    body: JSON.stringify(updates),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || "Errore aggiornamento task");
+  return data;
+};
+
+export const deleteTask = async (id) => {
+  const res = await fetch(`${BASE_URL}/tasks/${id}`, {
+    method: "DELETE",
+    headers: getHeaders(),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || "Errore eliminazione task");
+  return data;
+};
