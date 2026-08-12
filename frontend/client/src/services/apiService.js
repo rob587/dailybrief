@@ -71,3 +71,24 @@ export const deleteTask = async (id) => {
   if (!res.ok) throw new Error(data.error || "Errore eliminazione task");
   return data;
 };
+
+// sezione briefing
+export const generateBriefing = async (umore) => {
+  const res = await fetch(`${BASE_URL}/briefing/generate`, {
+    method: "POST",
+    headers: getHeaders(),
+    body: JSON.stringify({ umore }),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || "Errore generazione briefing");
+  return data;
+};
+
+export const fetchBriefingHistory = async () => {
+  const res = await fetch(`${BASE_URL}/briefing/history`, {
+    headers: getHeaders(),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || "Errore fetch storico");
+  return data;
+};
