@@ -30,6 +30,37 @@ const TaskManager = ({ onTasksChange }) => {
   const [submitting, setSubmitting] = useState(false);
   const [showForm, setShowForm] = useState(false);
 
+  //   section task functions
+  const loadTasks = async () => {
+    try {
+      const data = await fetchTasks();
+      setTasks(data.tasks);
+      onTasksChange?.(data.tasks);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCreate = async (e) => {
+    e.preventDefault();
+    if (!form.titolo.trim()) return;
+    setSubmitting(true);
+    try {
+      const data = await createTask(form.titolo, form.priorita, form.note);
+      const updatedTasks = [data.task, ...tasks];
+      setTasks(updatedTasks);
+      onTasksChange?.(updatedTasks);
+      setForm({ titolo: "", priorita: "media", note: "" });
+      setShowForm(false);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return <div></div>;
 };
 
