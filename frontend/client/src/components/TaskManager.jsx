@@ -61,6 +61,35 @@ const TaskManager = ({ onTasksChange }) => {
     }
   };
 
+  const handleUpdateStato = async (id, stato) => {
+    try {
+      const data = await updateTask(id, { stato });
+      const updatedTasks = tasks.map((t) => (t.id === id ? data.task : t));
+      setTasks(updatedTasks);
+      onTasksChange?.(updatedTasks);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteTask(id);
+      const updatedTasks = tasks.filter((t) => t.id !== id);
+      setTasks(updatedTasks);
+      onTasksChange?.(updatedTasks);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  if (loading)
+    return (
+      <div style={{ textAlign: "center", padding: "40px", color: "#6b7280" }}>
+        Caricamento task...
+      </div>
+    );
+
   return <div></div>;
 };
 
