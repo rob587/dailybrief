@@ -75,7 +75,70 @@ const BriefingDisplay = ({ tasks }) => {
     });
   };
 
-  return <div></div>;
+  return (
+    <>
+      <div className="briefing-container">
+        <div className="briefing-controls">
+          <h2>Briefing Giornaliero</h2>
+
+          <div className="umore-selector">
+            <label>Come ti senti oggi?</label>
+            <div className="umore-options">
+              {UMORE_OPTIONS.map((opt) => (
+                <button
+                  key={opt.value}
+                  onClick={() => setUmore(opt.value)}
+                  className={`umore-btn ${umore === opt.value ? "umore-active" : ""}`}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {error && (
+            <div className="error-banner">
+              {error}
+              <button onClick={() => setError(null)}>✕</button>
+            </div>
+          )}
+
+          <button
+            className="btn-primary btn-generate"
+            onClick={handleGenerate}
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <span className="spinner-inline" />
+                Generazione in corso...
+              </>
+            ) : (
+              "✨ Genera Briefing"
+            )}
+          </button>
+        </div>
+
+        {briefing && (
+          <div className="briefing-result">
+            <div className="briefing-meta">
+              <span>{formatDate(briefing.created_at)}</span>
+              <span>{briefing.tasks_count} task analizzati</span>
+              {briefing.umore && (
+                <span>
+                  {UMORE_OPTIONS.find((o) => o.value === briefing.umore)?.label}
+                </span>
+              )}
+            </div>
+
+            <div className="briefing-content">
+              {renderContent(briefing.contenuto)}
+            </div>
+          </div>
+        )}
+      </div>
+    </>
+  );
 };
 
 export default BriefingDisplay;
