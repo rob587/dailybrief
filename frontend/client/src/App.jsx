@@ -11,6 +11,29 @@ function App() {
   const [showRegister, setShowRegister] = useState(false);
   const [activeTab, setActiveTab] = useState("dashboard");
   const [tasks, setTasks] = useState([]);
+
+  if (loading)
+    return (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+          color: "#6b7280",
+        }}
+      >
+        Caricamento...
+      </div>
+    );
+
+  if (!user) {
+    return showRegister ? (
+      <Register onSwitch={() => setShowRegister(false)} />
+    ) : (
+      <Login onSwitch={() => setShowRegister(true)} />
+    );
+  }
   return <></>;
 }
 
