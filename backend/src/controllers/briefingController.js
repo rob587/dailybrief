@@ -63,7 +63,7 @@ Sii concreto, umano e diretto. Usa emoji con moderazione. Lunghezza: 200-300 par
           content: prompt,
         },
       ],
-      model: "llama-3.3-70b-versatile",
+      model: "openai/gpt-oss-120b",
       temperature: 0.8,
       max_tokens: 1000,
     });
